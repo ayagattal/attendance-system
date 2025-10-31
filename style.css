@@ -1,0 +1,184 @@
+body {
+
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 30px;
+  text-align: center;
+  line-height: 1.4;
+  margin : 0;
+}
+
+table {
+ width: 80%;
+ border-collapse: collapse;
+  margin: 0 auto 20px auto;
+  
+}
+
+
+
+.table, th, td {
+  border: 2px solid #a9761e;
+  padding: 10px;
+  text-align: center;
+
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #e6eaec;
+  font-weight: bold;
+  text-align: center;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin: 0;
+  cursor: pointer;
+}
+
+.check {
+  text-align: center;
+}
+
+h1 {
+color: #a5cfe5;
+text-align: center;
+font-size: 2em;
+margin: 40px 0 20px 0;
+
+}
+
+form {
+ display:inline-block;
+ background: #a5cfe5;
+ padding: 40px;
+ border-radius: 50px;
+ box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+
+ text-align: left;
+ margin:0 auto 50px auto;
+ width: 250px;
+ 
+}
+label {
+  display : block;
+  margin-bottom: 1px;
+  font-weight: bold;
+}
+
+input[type="text"], input[type ="email"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 5px;
+  border: 1px solid #9a7133;
+  border-radius: 5px;
+}
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #59c061;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #158a21;
+}
+
+/* exo 03 */
+
+.navbar {
+  background: #a5cfe5;
+  color: #a9761e;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  padding: o;
+  margin:0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 8px 15px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+
+
+.logout {
+  background: #e74c3c;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.logout:hover {
+  background: #c0392b;
+}
+.main{
+  padding: 15px;
+}
+
+/* media query for tablet and large screens */
+@media (min-width :600px) {
+   .nav-links {
+    display: flex;
+    flex-direction: row;
+    background: none;
+    margin: 0;
+    width: auto;
+  }
+  .nav-links li {
+    margin: 0 10px;
+  }
+  .logo{
+    margin-bottom :0;
+  }
+
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  main {
+    padding: 20px;
+  }
+}
+
+/* Media query for desktop / wide screens */
+@media (min-width: 900px) {
+  .navbar {
+    padding: 15px 40px;
+  }
+  .logo {
+    font-size: 1.5rem;
+  }
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+

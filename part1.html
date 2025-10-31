@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>tp advenced web programming</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <!--mise a jour exercice1 Tp1-->
+   
+    <div class="container" role="main">
+    <h1>Attendance System </h1>
+    <p class="lead">This HTML document contains a table representing student attendance. Each row is one student.</p>
+
+    <div class="table-wrapper" aria-hidden="false">
+     <table aria-label="Student attendance table">
+        <caption>Student attendance list — session date: 2025-10-04</caption>
+     <thead>
+        <tr>
+            <th rowspan="2"> Student ID </th>
+            <th rowspan="2"> Last Name </th>
+            <th rowspan="2"> First Name</th>
+            <th colspan="2"> S1 </th>
+            <th colspan="2"> S2 </th>
+            <th colspan="2"> S3 </th>
+            <th colspan="2"> S4 </th>
+            <th colspan="2"> S5 </th>
+            <th colspan="2"> S6 </th>
+            <th rowspan="2"> Absences </th>
+            <th rowspan="2"> Participation </th>
+            <th rowspan="2"> Message </th>
+
+
+        </tr>
+        <tr>
+            <th> present </th>
+            <th> participated </th>
+            <th> present </th>
+            <th> participated </th>
+            <th> present </th>
+            <th> participated </th>
+       
+            <th> present </th>
+            <th> participated </th>
+    
+            <th> present </th>
+            <th> participated </th>
+        
+            <th> present </th>
+            <th> participated </th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr>
+            <td> 31868406 </td>
+            <td> Aya </td>
+            <td> gattal </td>
+        
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present"></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+        <td></td>
+        </tr>
+         <tr>
+            <td> 31865789 </td>
+            <td> Souhir </td>
+            <td> GATTAL </td>
+            
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+         <td></td>   
+        </tr>
+         <tr>
+            <td> 3179289 </td>
+            <td> Ala </td>
+            <td> AYMENE </td>
+            
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+        <td></td>
+        </tr>
+        
+                 <!-- Add more rows as needed -->
+                   <script src="script.js"></script>
+     </tbody>
+    </table>
+    </div>
+ <!--exercice2 Tp1-->
+    <h1>LOGIN</h1> 
+    <form action="add_student.php"method="post">
+            <label for="student ID"> student ID</label><br>
+            <input type="text" id="student ID" name="student ID" required><br><br>
+
+             <label for="last Name"> last Name</label><br>
+            <input type="text" id="last Name" name="last Name" required><br><br>
+
+             <label for="first Name">first Name</label><br>
+            <input type="text" id="first Name" name="first Name" required><br><br>
+
+             <label for="Email"> Email</label><br>
+            <input type="text" id="Email" name="Email" required><br><br>
+
+            <input type="submit" value="submit">
+    </form>
+    <!--exercice3 tp1-->
+
+     <nav class="navbar">
+        <div class="logo">Attendence System</div>
+         <ul class ="nav-links">
+           <li><a href="index.html">Home</a></li>
+           <li><a href="attendence.html">Attendence list</a></li>
+           <li><a href="add_student.html">add student</a></li>
+           <li><a href="reposts.html">Reports</a></li>
+           <li><a href="logout.html" class="logout">Logout</a></li>
+         </ul>
+    </nav>
+    <main>
+        <h1>Welcome to the attendance system</h1>
+        <p> Select an option from the navigation bar to continue </p>
+    </main>
+
+    
+
+
+         
+</body>
+</html>
