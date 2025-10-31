@@ -28,7 +28,7 @@ function updateCounts(row) {
     row.style.backgroundColor = "lightcoral"; // too many absences
   }
 
-  // 💬 Set message based on attendance and participation
+  //  Set message based on attendance and participation
   const messageCell = row.querySelector('td:last-child'); // last column
   let message = "";
 
