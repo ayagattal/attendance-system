@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>tp advenced web programming</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+<body>
+   
+    <div class="container" role="main">
+    <h1>Attendance System List</h1>
+    
+
+
+
+
+
+
+
+
+
+
+
+ <!--exercice3 navbar tp1--><nav class="sidebar">
+  <h2>Attendance System</h2>
+  <ul class="nav-links">
+    <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="attendence.html"><i class="fa-solid fa-users"></i> Attendance List</a></li>
+    <li><a href="add_student.html"><i class="fa-solid fa-user-plus"></i> Add Student</a></li>
+    <li><a href="reports.html"><i class="fa-solid fa-chart-column"></i> Reports</a></li>
+  </ul>
+  <a href="logout.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
+
+
+<!--mise a jour exercice1 Tp1-->
+   
+    <div class="table-wrapper" aria-hidden="false">
+     <table aria-label="Student attendance table">
+        
+     <thead>
+        <tr>
+            <th rowspan="2"> Student ID </th>
+            <th rowspan="2"> Last Name </th>
+            <th rowspan="2"> First Name</th>
+            <th colspan="2"> S1 </th>
+            <th colspan="2"> S2 </th>
+            <th colspan="2"> S3 </th>
+            <th colspan="2"> S4 </th>
+            <th colspan="2"> S5 </th>
+            <th colspan="2"> S6 </th>
+            <th rowspan="2"> Absences </th>
+            <th rowspan="2"> Participation </th>
+            <th rowspan="2"> Message </th>
+
+
+        </tr>
+        <tr>
+            <th> present</th>
+            <th> participated </th>
+            <th> present </th>
+            <th> participated </th>
+            <th> present </th>
+            <th> participated </th>
+       
+            <th> present </th>
+            <th> participated </th>
+    
+            <th> present </th>
+            <th> participated </th>
+        
+            <th> present </th>
+            <th> participated </th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr>
+            <td> 31868406 </td>
+            <td> Aya </td>
+            <td> gattal </td>
+        
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="present"></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+        <td></td>
+        </tr>
+         <tr>
+            <td> 31865789 </td>
+            <td> Souhir </td>
+            <td> GATTAL </td>
+            
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <td><input type="checkbox" class="present" ></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td><input type="checkbox" class="participated" ></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+         <td></td>   
+        </tr>
+         <tr>
+            <td> 3179289 </td>
+            <td> Ala </td>
+            <td> AYMENE </td>
+            
+         <!-- Presence checkboxes -->
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <td><input type="checkbox" class="present" checked></td>
+        <!-- Participation checkboxes -->
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td><input type="checkbox" class="participated" checked></td>
+        <td class="abs-count"> Abs</td>
+        <td class="par-count"> Par</td>
+        <td></td>
+        </tr>
+        
+                 <!-- Add more rows as needed -->
+                   <script src="script.js"></script>
+     </tbody>
+    </table>
+    </div>
+ <!--exercice2: form to add new students Tp1-->
+   <h1>FORM TO ADD NEW STUDENTS</h1> 
+<form id="studentForm" action="add_student.php" method="post" onsubmit="return validateForm()">
+    <label for="studentID">Student ID</label><br>
+    <input type="text" id="studentID" name="studentID" required><br><br>
+
+    <label for="lastName">Last Name</label><br>
+    <input type="text" id="lastName" name="lastName" required><br><br>
+
+    <label for="firstName">First Name</label><br>
+    <input type="text" id="firstName" name="firstName" required><br><br>
+
+    <label for="email">Email</label><br>
+    <input type="text" id="email" name="email" required><br><br>
+
+    <input type="submit" value="Add New Student">
+</form>
+
+<!-- Link to your script -->
+<script src="script.js"></script>
+
+  
+
+
+         
+</body>
+</html>
