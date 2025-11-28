@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>log in</title>
+
+    <link rel="stylesheet" href="/attendance_app/pagescss/login.css">
+
+</head>
+<body>
+    <h1>LOG-IN</h1>
+    <p>Hello Welcome to MyAttendance!</p>
+
+    <!-- FORM TO LOGIN -->
+    <form id="login-form">
+
+        <select id="role" name="role" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+            <option value="admin">Administration</option>
+        </select>
+        <br><br>
+
+        <input type="text" id="id" name="ID" placeholder="Enter your ID" required><br><br>
+
+        <input type="text" id="Lastname" name="LastName" placeholder="Enter your Last Name" required><br><br>
+        <input type="text" id="Firstname" name="FirstName" placeholder="Enter your First Name" required><br><br>
+
+        <input type="submit" value="LOGIN">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="/attendance_app/javascript/data.js"></script>
+    <script src="/attendance_app/javascript/script.js"></script>
+
+</body>
+</html>

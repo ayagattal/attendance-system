@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Attendance</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="/attendance_app/pagescss/totalList.css">
+</head>
+<body>
+
+<button class="go-back" onclick="history.back()">&#60; GO BACK</button>
+
+<div class="section">
+    <h2 id="totalTitle">Total Attendance</h2>
+</div>
+<!-- SEARCH + SORT CONTROLS -->
+<div class="controls">
+    <input type="text" id="searchInput" placeholder="Search by name...">
+
+    <button id="sortAbsencesBtn">Sort by Absences</button>
+    <button id="sortParticipationBtn">Sort by Participation</button>
+
+    <p id="sortStatus" style="font-size:14px; color:#2F94DB; margin-top:8px;"></p>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Total Present</th>
+                <th>Total Participation</th>
+            </tr>
+        </thead>
+
+        <tbody id="totalTableBody">
+            <!-- Dynamic Rows -->
+        </tbody>
+    </table>
+</div>
+<div class="button-row">
+<button id="showReportBtn">Show Report</button>
+<button id="highlightBtn"> Highlight Excellent Students</button>
+<button id="resetBtn">Reset Colors</button>
+</div>
+<!-- Report Section (hidden at first) -->
+<div id="reportSection" style="display:none; margin-top:20px;">
+    <h2>Attendance Report</h2>
+
+    <p><strong>Total Students:</strong> <span id="totalStudents"></span></p>
+    <p><strong>Present:</strong> <span id="totalPresent"></span></p>
+    <p><strong>Absent:</strong> <span id="totalAbsent"></span></p>
+    <p><strong>Participated:</strong> <span id="totalParticipated"></span></p>
+
+    <canvas id="attendanceChart" width="300" height="300"></canvas>
+</div>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script src="/attendance_app/javascript/data.js"></script>
+<script src="/attendance_app/javascript/totalList.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+

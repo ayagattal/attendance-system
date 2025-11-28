@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+
+            <link rel="stylesheet" 
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            <link rel="stylesheet" href="/attendance_app/pagescss/home.css">
+</head>
+<body>
+
+    <div class="top-box">
+        <h1 id="welcomeMrText">Welcome </h1>
+        <p id="teacher-name">Teacher</p> 
+        
+    </div>
+
+    <style>
+        /* Hide page initially, show only after auth check */
+        body { opacity: 1; }
+        #authCheck { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; }
+    </style>
+
+    <div id="authCheck" style="display: flex; justify-content: center; align-items: center;">
+        <p>Verifying access...</p>
+    </div>
+
+ <!-- Attendance Section -->
+    <div class="attendance-card">
+        <div class="attendance-text">
+            <h3><span>Ready to Take Attendance?</span></h3>
+            <p>Mark who's present today and keep track of your records.</p>
+        </div>
+        <div class="attendance-img">
+            <img src="/attendance_app/attendance.png" alt="Students illustration">
+        </div>
+    </div>
+
+<!-- Overview Section -->
+<div class="overview-container">
+
+    <div class="overview-box">
+        <h3>Total Modules</h3>
+        <p id="total-modules">0</p>
+    </div>
+
+    <div class="overview-box">
+        <h3>Total Groups</h3>
+        <p id="total-groups">0</p>
+    </div>
+
+    <div class="overview-box">
+        <h3>Total Students</h3>
+        <p id="total-students">0</p>
+    </div>
+
+    <div class="overview-box">
+        <h3>Average Attendance</h3>
+        <p id="avg-attendance">0%</p>
+    </div>
+
+</div>
+
+    <!-- Bottom Navbar -->
+    <div class="bottom-nav">
+        <a href="home.html" class="active"><i class="fa-solid fa-house"></i></a>
+        <a href="classe.html" id="classeLink"><i class="fa-solid fa-calendar"></i></a>
+        <a href="addstudent.html" id="addstudentLink"><i class="fa-solid fa-user-group"></i></a>
+    </div>
+
+    <script>
+        // Update nav links to include teacher_id parameter
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const teacherId = urlParams.get("teacher_id");
+            
+            if (teacherId) {
+                document.getElementById("classeLink").href = `/attendance_app/pages/classe.html?teacher_id=${teacherId}`;
+                document.getElementById("addstudentLink").href = `/attendance_app/pages/addstudent.html?teacher_id=${teacherId}`;
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/attendance_app/javascript/data.js"></script>
+
+    <script src="/attendance_app/javascript/script.js"></script>
+</body>
+</html>
+

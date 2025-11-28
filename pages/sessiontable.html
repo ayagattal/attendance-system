@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Attendance</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="/attendance_app/pagescss/sessiontable.css">
+</head>
+
+<body>
+
+<button class="go-back" onclick="history.back()">&#60; GO BACK</button>
+
+<div class="section">
+    <h2 id="sessionTitle">Session</h2>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Present</th>
+                <th>Participated</th>
+            </tr>
+        </thead>
+
+        <tbody id="sessionTableBody">
+         
+        </tbody>
+    </table>
+</div>
+
+    <script src="/attendance_app/javascript/data.js"></script>
+<script src="/attendance_app/javascript/sessiontable.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

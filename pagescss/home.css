@@ -1,0 +1,142 @@
+.top-box {
+    width: 100%;
+    background-color: #2F94DB; 
+    padding: 35px 0;
+    text-align: left;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.top-box h1 {
+    color: white;
+    margin: 5px 0 10px 20px; /* top 10px, right 0, bottom 10px, left 20px */
+    font-size: 25px;
+    font-weight: bold;
+}
+.top-box p{
+    color:#BFBFBF;
+   margin: 5px 0 5px 20px; /* top 15px, right 0, bottom 15px, left 20px */
+
+}
+
+/* Attendance Record Card */
+.attendance-card {
+    background: #ffffff;
+    border: 2px solid #cce6ff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attendance-text h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.attendance-text span {
+    color: #000000;
+    font-weight: bold;
+}
+
+.attendance-text p {
+    color: #7a7a7a;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.attendance-img img {
+    width: 150px;
+}
+
+/*overview:*/
+/* ======================================================
+   OVERVIEW CARDS
+====================================================== */
+
+.overview-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.overview-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.overview-box h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.overview-box p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* navbar  */
+.bottom-nav {
+    position: fixed;
+    bottom: 17px;   
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 80%;
+    padding: 12px 0;      /* ↓ was 20px → now smaller */
+
+    background-color: #A9D6F5;
+    border-radius: 20px;  /* slightly smaller corners */
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon styling */
+.bottom-nav i {
+    font-size: 24px;      /* ↓ was 28px */
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.bottom-nav i:hover {
+    transform: scale(1.15);
+}
+
+/* Active (highlighted) icon */
+.bottom-nav a.active {
+  background-color: white;
+  width: 48px;   /* ↓ was 55px */
+  height: 48px;  /* ↓ was 55px */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-nav a.active i {
+  color: #2F94DB;
+}

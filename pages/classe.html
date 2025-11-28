@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Classes</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/attendance_app/pagescss/classe.css">
+</head>
+
+<body>
+
+    <div class="top-box">
+        <h1>Attendance List</h1>
+    </div>
+
+    <div class="content">
+        <h2>Your Classes</h2>
+
+        <div id="classContainer"></div>
+        
+        <pre id="debugPanel" style="display:none; background:#f6f6f6; padding:8px; margin-top:12px; border:1px solid #ddd; font-size:12px; white-space:pre-wrap;"></pre>
+    </div>
+
+    <!-- Bottom Navbar -->
+    <div class="bottom-nav">
+        <a href="home.html" id="homeLink"><i class="fa-solid fa-house"></i></a>
+        <a href="classe.html" class="active"><i class="fa-solid fa-calendar"></i></a>
+        <a href="addstudent.html" id="addstudentLink"><i class="fa-solid fa-user-group"></i></a>
+    </div>
+
+    <script>
+        // Update nav links to include teacher_id parameter
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const teacherId = urlParams.get("teacher_id");
+            
+            if (teacherId) {
+                document.getElementById("homeLink").href = `/attendance_app/pages/home.html?teacher_id=${teacherId}`;
+                document.getElementById("addstudentLink").href = `/attendance_app/pages/addstudent.html?teacher_id=${teacherId}`;
+            }
+        });
+    </script>
+
+    <!-- Load DATA first -->
+    <script src="/attendance_app/javascript/data.js"></script>
+
+    <script src="/attendance_app/javascript/classe.js"></script>
+
+</body>
+</html>
+

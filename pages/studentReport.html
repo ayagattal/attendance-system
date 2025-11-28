@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report</title>
+    <link rel="stylesheet" href="/attendance_app/pagescss/studentReport.css">
+</head>
+<body>
+
+<button onclick="history.back()" class="go-back">⟵ Back</button>
+
+<h1 id="reportTitle">Report</h1>
+
+<div class="info-box">
+    <p><b>ID:</b> <span id="studentId"></span></p>
+    <p><b>Name:</b> <span id="studentName"></span></p>
+    <p><b>Module:</b> <span id="moduleName"></span></p>
+    <p><b>Group:</b> <span id="groupName"></span></p>
+</div>
+
+<h2>Attendance Summary</h2>
+
+<div class="summary">
+    <p><b>Total Sessions Attended:</b> <span id="presentCount">0</span></p>
+    <p><b>Total Sessions Missed:</b> <span id="absentCount">0</span></p>
+    <p><b>Participated:</b> <span id="participatedCount">0</span></p>
+</div>
+
+
+<h2>Message</h2>
+<div id="messageBox" class="message-box"></div>
+
+<script src="/attendance_app/javascript/data.js"></script>
+<script src="/attendance_app/javascript/studentReport.js"></script>
+
+</body>
+</html>
+

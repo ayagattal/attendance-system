@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Students</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="/attendance_app/pagescss/addstudent.css">
+</head>
+<body>
+
+<div class="top-box">
+    <h1>Add New Students</h1>
+</div>
+
+<div class="note">
+    <h5>NEW REQUEST!</h5>
+    <p>Check students info so you can add them</p>
+</div>
+
+<form id="addStudentForm">
+    <input type="text" id="studentId" placeholder="Enter ID" required><br><br>
+    <input type="text" id="studentLast" placeholder="Enter Last Name" required><br><br>
+    <input type="text" id="studentFirst" placeholder="Enter First Name" required><br><br>
+
+    <select id="studentClass" required>
+        <option value="" disabled selected>Select class</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit" id="addStudentBtn">ADD</button>
+</form>
+
+<script src="/attendance_app/javascript/data.js"></script>
+<script src="/attendance_app/javascript/addstudent.js"></script>
+
+<div class="bottom-nav">
+    <a href="home.html" id="homeLink"><i class="fa-solid fa-house"></i></a>
+    <a href="classe.html" id="classeLink"><i class="fa-solid fa-calendar"></i></a>
+    <a href="addstudent.html" class="active"><i class="fa-solid fa-user-group"></i></a>
+</div>
+
+<script>
+    // Update nav links to include teacher_id parameter
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const teacherId = urlParams.get("teacher_id");
+        
+        if (teacherId) {
+            document.getElementById("homeLink").href = `/attendance_app/pages/home.html?teacher_id=${teacherId}`;
+            document.getElementById("classeLink").href = `/attendance_app/pages/classe.html?teacher_id=${teacherId}`;
+        }
+    });
+</script>
+
+</body>
+</html>

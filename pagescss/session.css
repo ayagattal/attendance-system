@@ -1,0 +1,74 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Back Button */
+.go-back {
+    margin: 20px;
+    background: none;
+    border: none;
+    color: #2F93DB;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.go-back:hover {
+    text-decoration: underline;
+}
+
+/* Title (centered like other pages) */
+.section {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2F93DB;
+    margin-bottom: 25px;
+}
+
+/* Session list wrapper */
+.session-list {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+/* Each session item */
+.session-item {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.session-btn,
+.total-btn {
+    width: 180px;
+    padding: 12px 8px;
+    font-size: 16px;
+    color: #333;
+    background: #d5eafd;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.session-btn:hover,
+.total-btn:hover {
+    background: #c5e2fc;
+}
+
+.total-btn {
+    background: #bfe0ff;
+    font-weight: 600;
+}
