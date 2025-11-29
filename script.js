@@ -39,11 +39,11 @@ function updateCounts(row) {
   const messageCell = row.querySelector('td:last-child'); // last column
   let message = "";
   if (absCount < 3 && parCount >= 4) {
-    message = "Good attendance – Excellent participation";
+    message = "Good attendance / Excellent participation";
   } else if (absCount >= 3 && absCount <= 4) {
-    message = "Warning – attendance low – You need to participate more";
+    message = "Warning / attendance low / You need to participate more";
   } else if (absCount >= 5) {
-    message = "Excluded – too many absences – You need to participate more";
+    message = "Excluded / too many absences / You need to participate more";
   } else {
     message = "Keep improving!";
   }

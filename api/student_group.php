@@ -11,9 +11,15 @@ if (!$student_id) {
 }
 
 try {
-    // Get the student's group and the modules for that group
+    // Get the student's group and the modules for that group 
     $stmt = $pdo->prepare(
-        "SELECT g.group_id, g.group_name, m.module_id, m.module_name\n         FROM students s\n         JOIN group_list g ON s.group_id = g.group_id\n         LEFT JOIN group_modules gm ON g.group_id = gm.group_id\n         LEFT JOIN modules m ON gm.module_id = m.module_id\n         WHERE s.student_id = :sid"
+        "SELECT DISTINCT g.group_id, g.group_name, m.module_id, m.module_name
+         FROM students s
+         JOIN group_list g ON s.group_id = g.group_id
+         LEFT JOIN group_modules gm ON g.group_id = gm.group_id
+         LEFT JOIN modules m ON gm.module_id = m.module_id
+         WHERE s.student_id = :sid
+         ORDER BY m.module_id"
     );
 
     $stmt->execute(['sid' => $student_id]);

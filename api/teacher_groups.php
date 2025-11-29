@@ -19,11 +19,7 @@ try {
     $stmt->execute(['tid' => $teacher_id]);
     $rows = $stmt->fetchAll();
 
-    // ---- Build clean structure:
-    // {
-    //   "SI_G1": { group_id: 1, modules: [ {module_id, module_name}, ... ] }
-    // }
-
+    //build structured result
     $result = [];
 
     foreach ($rows as $r) {
@@ -45,8 +41,6 @@ try {
             ];
         }
     }
-
-    // convert "modules" assoc array → normal array
     foreach ($result as &$g) {
         $g["modules"] = array_values($g["modules"]);
     }

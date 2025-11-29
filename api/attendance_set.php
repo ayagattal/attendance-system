@@ -10,11 +10,13 @@ if (!$data) $data = $_POST;
 
 $student_id = $data['student_id'] ?? null;
 $session_id = isset($data['session_id']) ? (int)$data['session_id'] : null;
-$status     = $data['status'] ?? null;
+$status     = isset($data['status']) ? (int)$data['status'] : null;
 
-if (!$student_id || !$session_id || !$status) {
+// Validate parameters (status can be 0, so check !== null)
+if (!$student_id || !$session_id || $status === null) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Missing parameters']);
+    error_log('attendance_set.php validation failed: student_id=' . $student_id . ', session_id=' . $session_id . ', status=' . $status);
     exit;
 }
 
@@ -29,10 +31,12 @@ try {
         $id = $row['attendance_id'];
         $upd = $pdo->prepare('UPDATE attendance SET status = :status WHERE attendance_id = :id');
         $upd->execute(['status' => $status, 'id' => $id]);
+        error_log("attendance_set.php: Updated attendance_id=$id to status=$status");
     } else {
         // Insert
         $ins = $pdo->prepare('INSERT INTO attendance (student_id, session_id, status) VALUES (:sid, :sess, :status)');
         $ins->execute(['sid' => $student_id, 'sess' => $session_id, 'status' => $status]);
+        error_log("attendance_set.php: Inserted new attendance for student=$student_id, session=$session_id, status=$status");
     }
 
     echo json_encode(['status' => 'ok']);

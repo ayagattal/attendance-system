@@ -18,7 +18,7 @@
     </div>
 
     <style>
-        /* Hide page initially, show only after auth check */
+        /* Hide page initialled */
         body { opacity: 1; }
         #authCheck { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; }
     </style>
@@ -63,7 +63,6 @@
 
 </div>
 
-    <!-- Bottom Navbar -->
     <div class="bottom-nav">
         <a href="home.html" class="active"><i class="fa-solid fa-house"></i></a>
         <a href="classe.html" id="classeLink"><i class="fa-solid fa-calendar"></i></a>
@@ -71,7 +70,7 @@
     </div>
 
     <script>
-        // Update nav links to include teacher_id parameter
+        
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const teacherId = urlParams.get("teacher_id");

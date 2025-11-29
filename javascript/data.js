@@ -1,19 +1,18 @@
-// ============================================================
-//  DATA.JS — CENTRAL DATA LOADER (PHP + MySQL BACKEND)
-// ============================================================
 
-// --- Generic GET utility -------------------------------------
+//  DATA.JS — CENTRAL DATA LOADER (PHP + MySQL BACKEND)
+
+// Generic GET utility 
 async function apiGet(url) {
     try {
         const response = await fetch(url);
         return await response.json();
     } catch (err) {
-        console.error("❌ API GET ERROR:", url, err);
+        console.error("!!!!!!! API GET ERROR:", url, err);
         return [];
     }
 }
 
-// --- Generic POST utility ------------------------------------
+// Generic POST utility 
 async function apiPost(url, data) {
     try {
         const response = await fetch(url, {
@@ -23,38 +22,30 @@ async function apiPost(url, data) {
         });
         return await response.json();
     } catch (err) {
-        console.error("❌ API POST ERROR:", url, err);
+        console.error("!!!!!!! API POST ERROR:", url, err);
         return null;
     }
 }
-
-// ============================================================
 // GLOBAL DATABASE OBJECT
-// ============================================================
+
 const DB = {
-    teachers: [],            // teacher list
-    teacherGroups: {},       // teacher_id → [group_id,...]
-    groups: [],              // all groups
-    modules: [],             // all modules
-    students: {},            // group_id → [students]
-    sessions: {},            // group_id → [sessions]
-    attendance: {}           // group_id → [attendance rows]
+    teachers: [],     // teacher list
+    teacherGroups: {},      
+    groups: [],  // all groups
+    modules: [],       // all modules
+    students: {},            
+    sessions: {},           
+    attendance: {}           
 };
 
-// ============================================================
-// 1️⃣ LOAD TEACHERS
-// ============================================================
+//load teachers
 async function loadTeachers() {
     DB.teachers = await apiGet("/attendance_app/api/loginTeacher.php?all=1");
 }
-
-// ============================================================
-// 2️⃣ LOAD TEACHER GROUPS
-// (used for Teacher Home Page)
-// ============================================================
+//load teacher groups
 async function loadTeacherGroups() {
     // If a teacher is logged in, request only their groups and store as
-    // DB.teacherGroups[teacherId] = [groupId,...]. Otherwise leave empty.
+   
     const active = JSON.parse(localStorage.getItem('activeTeacher'));
     DB.teacherGroups = {};
 
@@ -67,23 +58,16 @@ async function loadTeacherGroups() {
     }
 }
 
-// ============================================================
-// 3️⃣ LOAD GROUPS LIST
-// ============================================================
+//  LOAD GROUPS LIST
 async function loadGroups() {
     DB.groups = await apiGet("/attendance_app/api/groups.php");
 }
 
-// ============================================================
-// 4️⃣ LOAD MODULES
-// ============================================================
+// 4 LOAD MODULES
 async function loadModules() {
     DB.modules = await apiGet("/attendance_app/api/modules.php");
 }
-
-// ============================================================
-// 5️⃣ LOAD STUDENTS PER GROUP
-// ============================================================
+//load student per groups
 async function loadStudents() {
     const list = await apiGet("/attendance_app/api/students.php");
     DB.students = {};
@@ -93,26 +77,17 @@ async function loadStudents() {
         DB.students[st.group_id].push(st);
     });
 }
-
-// ============================================================
-// 6️⃣ LOAD SESSIONS FOR A GROUP
-// ============================================================
+//load session per grouyp 
 async function loadSessions(groupId) {
     if (!groupId) return;
     DB.sessions[groupId] = await apiGet("/attendance_app/api/sessions.php?group_id=" + groupId);
 }
-
-// ============================================================
-// 7️⃣ LOAD ATTENDANCE FOR A GROUP
-// ============================================================
+//load atendance for group
 async function loadAttendance(groupId) {
     if (!groupId) return;
     DB.attendance[groupId] = await apiGet("/attendance_app/api/attendance_get.php?group_id=" + groupId);
 }
-
-// ============================================================
-//  🔥 LOAD EVERYTHING EXCEPT GROUP-ONLY DATA
-// ============================================================
+//  LOAD EVERYTHING EXCEPT GROUP-ONLY DATA
 async function loadAllData() {
     await loadTeachers();
     await loadTeacherGroups();

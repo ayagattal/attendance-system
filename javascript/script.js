@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // store student info under both `loggedStudent` and `loggedUser` for compatibility
+            // store student info 
             const studentObj = {
                 role: "student",
                 id: data.student.id,
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // -----------------------------
         if (role === "teacher") {
             try {
-                console.log("🔐 Teacher login attempt:", { id, first, last });
+                console.log(" Teacher login attempt:", { id, first, last });
                 
                 const res = await fetch("/attendance_app/api/loginTeacher.php", {
                     method: "POST",
@@ -79,13 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: JSON.stringify({ id, first, last })
                 });
 
-                console.log("✅ API response status:", res.status);
+                console.log(" API response status:", res.status);
                 
                 const data = await res.json();
-                console.log("✅ API response:", data);
+                console.log(" API response:", data);
 
                 if (data.status !== "ok") {
-                    alert("❌ " + (data.message || "Login failed"));
+                    alert("❌!!!! " + (data.message || "Login failed"));
                     console.error("❌ Login failed:", data);
                     return;
                 }
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // For simplicity, redirect teacher to home page with teacher_id
                 // (home page will handle teacher info and overview)
                 const redirectUrl = `/attendance_app/pages/home.html?teacher_id=${data.teacher.id}`;
-                console.log("📍 Redirecting to:", redirectUrl);
+                console.log(" Redirecting to:", redirectUrl);
                 window.location.href = redirectUrl;
                 return;
             } catch (err) {
@@ -252,16 +252,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                             totalPossible++;
                             const att = attendance.find(a => 
                                 a.student_id === student.student_id && 
-                                a.session_number === session.session_number
+                                a.session_id === session.session_id
                             );
-                            if (att && (att.present || att.participated)) {
+                            // Status codes: 0=absent, 1=present, 2=participated, 3=present+participated
+                            if (att && parseInt(att.status) > 0) {
                                 totalPresent++;
                             }
                         });
                     });
                 }
             } catch (e) {
-                // Silently continue
+                console.warn("Average attendance error:", e);
             }
         }
 

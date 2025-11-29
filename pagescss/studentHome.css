@@ -9,13 +9,13 @@
 
 .top-box h1 {
     color: white;
-    margin: 5px 0 10px 20px; /* top 10px, right 0, bottom 10px, left 20px */
+    margin: 5px 0 10px 20px; 
     font-size: 25px;
     font-weight: bold;
 }
 .top-box p{
     color:#BFBFBF;
-   margin: 5px 0 5px 20px; /* top 15px, right 0, bottom 15px, left 20px */
+   margin: 5px 0 5px 20px; 
 
 }
 
@@ -51,20 +51,17 @@
     width: 150px;
 }
 
-/* Modules Container */
-/* Make sure the container stacks elements vertically */
 .module-list {
     display: block !important;
     width: 100%;
     margin-top: 20px;
 }
 
-/* Module buttons always appear under each other */
 .module-btn {
     display: block !important;
-    width: 90% !important;        /* full width */
-    max-width: 500px;              /* adjust as needed */
-    margin: 25px;      /* centers + adds spacing */
+    width: 90% !important;        
+    max-width: 500px;              
+    margin: 25px;      
     padding: 15px;
     border-radius: 15px;
     border: 2px solid #d9d9d9;

@@ -1,23 +1,23 @@
-// addstudent.js — Add new students to groups (teacher page)
+// Add new students to groups in(teacher page):
 
 document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("addStudentForm");
     const classSelect = document.getElementById("studentClass");
     
-    if (!form) return; // not on this page
+    if (!form) return; 
 
-    console.log("🔍 addstudent.js loaded");
+    console.log(" addstudent.js loaded");
 
     // Load groups and populate dropdown
     try {
-        console.log("📚 Loading groups...");
+        console.log(" Loading groups...");
         const res = await fetch('/attendance_app/api/groups.php');
         const groups = await res.json();
         
-        console.log("✅ Groups loaded:", groups);
+        console.log(" Groups loaded:", groups);
 
         if (!Array.isArray(groups) || groups.length === 0) {
-            console.warn("⚠️  No groups available");
+            console.warn("  No groups available");
             classSelect.innerHTML = '<option disabled>No groups available</option>';
             return;
         }
@@ -30,10 +30,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             classSelect.appendChild(option);
         });
 
-        console.log("✅ Dropdown populated with", groups.length, "groups");
+        console.log("Dropdown populated with", groups.length, "groups");
 
     } catch (err) {
-        console.error("❌ Error loading groups:", err);
+        console.error(" Error loading groups:", err);
         classSelect.innerHTML = '<option disabled>Error loading groups</option>';
     }
 
@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const studentFirst = document.getElementById("studentFirst").value.trim();
         const groupId = classSelect.value;
 
-        console.log("📝 Form submitted:", { studentId, studentLast, studentFirst, groupId });
+        console.log(" Form submitted:", { studentId, studentLast, studentFirst, groupId });
 
         if (!studentId || !studentLast || !studentFirst || !groupId) {
-            alert("❌ Please fill all fields");
+            alert(" Please fill all fields");
             return;
         }
 
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 group_id: parseInt(groupId)
             };
 
-            console.log("🌐 Sending to API:", payload);
+            console.log(" Sending to API:", payload);
 
             const res = await fetch('/attendance_app/api/students.php', {
                 method: 'POST',
@@ -71,17 +71,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             const result = await res.json();
-            console.log("✅ API response:", result);
+            console.log(" API response:", result);
 
             if (result.success || result.status === 'ok') {
-                alert(`✅ Student "${studentFirst} ${studentLast}" added successfully!`);
+                alert(` Student "${studentFirst} ${studentLast}" added successfully!`);
                 form.reset();
             } else {
-                alert(`❌ Error: ${result.message || 'Failed to add student'}`);
+                alert(` Error: ${result.message || 'Failed to add student'}`);
             }
         } catch (err) {
-            console.error("❌ Error adding student:", err);
-            alert(`❌ Error: ${err.message}`);
+            console.error(" Error adding student:", err);
+            alert(` Error: ${err.message}`);
         }
     });
 });

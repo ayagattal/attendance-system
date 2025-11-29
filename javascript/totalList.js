@@ -1,320 +1,282 @@
-// ============================================================
-// totalList.js — TOTAL attendance for one group
-// ============================================================
-
-// Read URL parameters
+console.log("totalList.js loaded");
 const urlParams = new URLSearchParams(window.location.search);
-const moduleId = urlParams.get("module_id");
 const groupId = urlParams.get("group_id");
+const moduleId = urlParams.get("module_id");
+console.log("📋 Parameters:", { groupId, moduleId });
 
-// Table body
 const tbody = document.getElementById("totalTableBody");
-
-// ============================================================
-// LOAD AND RENDER TABLE
-// ============================================================
+let totalSessions = 0;
 
 async function initTotalList() {
     if (!groupId) {
-        tbody.innerHTML = `<tr><td colspan="5">Missing group_id parameter</td></tr>`;
+        tbody.innerHTML = "<tr><td colspan='5'>Missing group_id parameter</td></tr>";
         return;
     }
 
     try {
-        // Load students for this group
-        const studentsRes = await fetch(`/attendance_app/api/students.php?group_id=${encodeURIComponent(groupId)}`);
+        console.log("📡 Loading data for group:", groupId);
+        
+        const studentsRes = await fetch("/attendance_app/api/students.php?group_id=" + encodeURIComponent(groupId));
         const students = await studentsRes.json();
+        console.log("Students:", students.length);
 
-        // Load sessions for this group
-        const sessionsRes = await fetch(`/attendance_app/api/sessions.php?group_id=${encodeURIComponent(groupId)}`);
+        const sessionsRes = await fetch("/attendance_app/api/sessions.php?group_id=" + encodeURIComponent(groupId));
         const sessions = await sessionsRes.json();
+        console.log(" Sessions:", sessions.length);
+        totalSessions = sessions.length;
 
-        // Load attendance for this group
-        const attendanceRes = await fetch(`/attendance_app/api/attendance_get.php?group_id=${encodeURIComponent(groupId)}`);
+        const attendanceRes = await fetch("/attendance_app/api/attendance_get.php?group_id=" + encodeURIComponent(groupId));
         const attendance = await attendanceRes.json();
+        console.log(" Attendance records:", attendance.length);
 
-        if (!Array.isArray(students) || !Array.isArray(sessions) || !Array.isArray(attendance)) {
-            tbody.innerHTML = `<tr><td colspan="5">Error loading data</td></tr>`;
+        if (!Array.isArray(students) || students.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='5'>No students in this group</td></tr>";
             return;
         }
 
-        const totalSessions = sessions.length;
+        if (!Array.isArray(sessions) || sessions.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='5'>No sessions for this group</td></tr>";
+            return;
+        }
 
-        // Build attendance map: student_id → { presentCount, participatedCount }
-        const map = {};
-
+        const attendanceMap = {};
         students.forEach(st => {
-            map[st.student_id] = { present: 0, participated: 0 };
+            attendanceMap[st.student_id] = { 
+                present: 0, 
+                participated: 0,
+                absent: 0
+            };
         });
 
-        attendance.forEach(row => {
-            if (!map[row.student_id]) return;
-
-            if (row.status == 1) map[row.student_id].present++;
-            if (row.status == 2) {
-                map[row.student_id].present++;
-                map[row.student_id].participated++;
+        attendance.forEach(record => {
+            if (!attendanceMap[record.student_id]) return;
+            
+            const status = parseInt(record.status);
+            
+            if (status === 0) {
+                attendanceMap[record.student_id].absent++;
+            } else if (status === 1) {
+                attendanceMap[record.student_id].present++;
+            } else if (status === 2) {
+                attendanceMap[record.student_id].participated++;
+            } else if (status === 3) {
+                attendanceMap[record.student_id].present++;
+                attendanceMap[record.student_id].participated++;
             }
         });
 
-        // Build table rows
+        console.log(" Rendering table rows...");
         tbody.innerHTML = "";
+        
         students.forEach(st => {
-            const present = map[st.student_id].present;
-            const participated = map[st.student_id].participated;
-            const absences = totalSessions - present;
+            const stats = attendanceMap[st.student_id];
+            const present = stats.present;
+            const participated = stats.participated;
+            const absent = totalSessions - present;
 
             const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${st.student_id}</td>
-                <td>${st.last_name}</td>
-                <td>${st.first_name}</td>
-                <td>${present}</td>
-                <td>${participated}</td>
-            `;
+            row.innerHTML = "<td>" + st.student_id + "</td><td>" + st.last_name + "</td><td>" + st.first_name + "</td><td data-present='" + present + "'>" + present + "</td><td data-participated='" + participated + "'>" + participated + "</td>";
 
-            // Color logic
-            if (absences < 3) row.style.backgroundColor = "#c8f7c5";      // green
-            else if (absences <= 4) row.style.backgroundColor = "#fff3b0"; // yellow
-            else row.style.backgroundColor = "#ffb3b3";                    // red
+            if (absent < 3) {
+                row.style.backgroundColor = "#c8f7c5";
+            } else if (absent < 4) {
+                row.style.backgroundColor = "#fff3b0";
+            } else {
+                row.style.backgroundColor = "#ff9999";
+            }
 
             tbody.appendChild(row);
         });
 
+        const titleEl = document.getElementById("totalTitle");
+        if (titleEl) titleEl.textContent = "Total Attendance (" + totalSessions + " Sessions)";
+
+        console.log(" Table rendered successfully!");
         setupButtons(totalSessions);
 
     } catch (err) {
-        console.error("Error loading totalList:", err);
-        tbody.innerHTML = `<tr><td colspan="5">Error loading data: ${err.message}</td></tr>`;
+        console.error("!! Error loading totalList:", err);
+        tbody.innerHTML = "<tr><td colspan='5'>Error loading data: " + err.message + "</td></tr>";
     }
 }
 
-// ============================================================
-// SETUP BUTTONS
-// ============================================================
+function setupButtons(ts) {
+    console.log(" Setting up buttons with totalSessions =", ts);
 
-function setupButtons(totalSessions) {
-
-    document.getElementById("showReportBtn").addEventListener("click", () => {
-
+    document.getElementById("showReportBtn").addEventListener("click", function() {
+        console.log(" Show Report clicked");
+        
+        let totalStudents = 0;
         let presentCount = 0;
         let participatedCount = 0;
 
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const participated = parseInt($(this).find("td:nth-child(5)").text());
+        document.querySelectorAll("#totalTableBody tr").forEach(function(row) {
+            totalStudents++;
+            const present = parseInt(row.querySelector("td:nth-child(4)").textContent) || 0;
+            const participated = parseInt(row.querySelector("td:nth-child(5)").textContent) || 0;
 
             if (present > 0) presentCount++;
             if (participated > 0) participatedCount++;
         });
 
-        const totalStudents = $("#totalTableBody tr").length;
         const absentCount = totalStudents - presentCount;
 
-        // Fill report text
-        $("#totalStudents").text(totalStudents);
-        $("#totalPresent").text(presentCount);
-        $("#totalAbsent").text(absentCount);
-        $("#totalParticipated").text(participatedCount);
+        console.log(" Report stats:", { totalStudents, presentCount, absentCount, participatedCount });
 
-        $("#reportSection").show();
+        document.getElementById("totalStudents").textContent = totalStudents;
+        document.getElementById("totalPresent").textContent = presentCount;
+        document.getElementById("totalAbsent").textContent = absentCount;
+        document.getElementById("totalParticipated").textContent = participatedCount;
 
-        // Pie chart
-        const ctx = document.getElementById("attendanceChart").getContext("2d");
-        new Chart(ctx, {
-            type: "pie",
-            data: {
-                labels: ["Present", "Absent", "Participated"],
-                datasets: [{
-                    data: [presentCount, absentCount, participatedCount]
-                }]
+        document.getElementById("reportSection").style.display = "block";
+
+        try {
+            console.log(" Creating chart...");
+            var canvas = document.getElementById("attendanceChart");
+            if (!canvas) {
+                console.error("!! Canvas element not found!");
+                return;
+            }
+            
+            var ctx = canvas.getContext("2d");
+            if (!ctx) {
+                console.error("!! Could not get canvas context!");
+                return;
+            }
+            
+            if (window.attendanceChart && typeof window.attendanceChart.destroy === "function") {
+                try {
+                    window.attendanceChart.destroy();
+                    console.log("  Old chart destroyed");
+                } catch (destroyErr) {
+                    console.warn(" Could not destroy old chart:", destroyErr);
+                }
+            }
+            
+            window.attendanceChart = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: ["Present", "Absent", "Participated"],
+                    datasets: [{
+                        data: [presentCount, absentCount, participatedCount],
+                        backgroundColor: ["#4CAF50", "#ff9999", "#c8f7c5"],
+                        borderColor: ["#388e3c", "#ff9999", "#c8f7c5"],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: "bottom"
+                        }
+                    }
+                }
+            });
+            console.log(" Chart created successfully!");
+        } catch (err) {
+            console.error("!! Chart error:", err);
+            console.error("Stack:", err.stack);
+        }
+    });
+
+    document.getElementById("highlightBtn").addEventListener("click", function() {
+        console.log("⭐ Highlight Excellent Students clicked");
+        
+        document.querySelectorAll("#totalTableBody tr").forEach(function(row) {
+            const present = parseInt(row.querySelector("td:nth-child(4)").textContent) || 0;
+            const absences = ts - present;
+
+            if (absences < 2) {
+                row.style.backgroundColor = "#ffeb3b";
+                row.style.fontWeight = "bold";
             }
         });
     });
 
-    // HIGHLIGHT LOW ABSENCE STUDENTS (<3)
-    $("#highlightBtn").click(function () {
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const absences = totalSessions - present;
+    document.getElementById("resetBtn").addEventListener("click", function() {
+        console.log(" Reset Colors clicked");
+        
+        document.querySelectorAll("#totalTableBody tr").forEach(function(row) {
+            const present = parseInt(row.querySelector("td:nth-child(4)").textContent) || 0;
+            const absences = ts - present;
 
-            if (absences < 3) {
-                $(this).animate({ opacity: 0.3 }, 200)
-                        .animate({ opacity: 1 }, 200)
-                        .css("background-color", "#90ee90");
+            if (absences < 2) {
+                row.style.backgroundColor = "#c8f7c5";
+            } else if (absences < 3) {
+                row.style.backgroundColor = "#fff3b0";
+            } else if (absences < 4) {
+                row.style.backgroundColor = "#ffcccb";
+            } else {
+                row.style.backgroundColor = "#ff9999";
             }
+            row.style.fontWeight = "normal";
         });
     });
 
-    // RESET COLORS
-    $("#resetBtn").click(function () {
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const absences = totalSessions - present;
+    document.getElementById("searchInput").addEventListener("keyup", function(e) {
+        const searchValue = e.target.value.toLowerCase();
+        console.log(" Search:", searchValue);
 
-            if (absences < 3) $(this).css("background-color", "#c8f7c5");
-            else if (absences <= 4) $(this).css("background-color", "#fff3b0");
-            else $(this).css("background-color", "#ffb3b3");
+        document.querySelectorAll("#totalTableBody tr").forEach(function(row) {
+            const lastName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+            const firstName = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+
+            const match = lastName.includes(searchValue) || firstName.includes(searchValue);
+            row.style.display = match ? "" : "none";
         });
     });
 
-    // SEARCH
-    $("#searchInput").on("keyup", function () {
-        const value = $(this).val().toLowerCase();
-
-        $("#totalTableBody tr").filter(function () {
-            const last = $(this).find("td:nth-child(2)").text().toLowerCase();
-            const first = $(this).find("td:nth-child(3)").text().toLowerCase();
-
-            $(this).toggle(last.includes(value) || first.includes(value));
-        });
-    });
-
-    // SORT BY ABSENCES
-    $("#sortAbsencesBtn").click(function () {
-
-        const rows = $("#totalTableBody tr").get();
-
-        rows.sort(function (a, b) {
-            const presentA = parseInt($(a).find("td:nth-child(4)").text());
-            const presentB = parseInt($(b).find("td:nth-child(4)").text());
-
-            const absA = totalSessions - presentA;
-            const absB = totalSessions - presentB;
-
+    document.getElementById("sortAbsencesBtn").addEventListener("click", function() {
+        console.log(" Sort by Absences clicked");
+        
+        const rows = Array.from(document.querySelectorAll("#totalTableBody tr"));
+        
+        rows.sort(function(a, b) {
+            const presentA = parseInt(a.querySelector("td:nth-child(4)").textContent) || 0;
+            const presentB = parseInt(b.querySelector("td:nth-child(4)").textContent) || 0;
+            const absA = ts - presentA;
+            const absB = ts - presentB;
             return absA - absB;
         });
 
-        $.each(rows, (i, row) => $("#totalTableBody").append(row));
+        const tbody = document.getElementById("totalTableBody");
+        tbody.innerHTML = "";
+        rows.forEach(function(row) {
+            tbody.appendChild(row);
+        });
+        
+        console.log(" Sorted by absences (lowest first)");
     });
 
-    // SORT BY PARTICIPATION
-    $("#sortParticipationBtn").click(function () {
-        const rows = $("#totalTableBody tr").get();
-
-        rows.sort(function (a, b) {
-            const partA = parseInt($(a).find("td:nth-child(5)").text());
-            const partB = parseInt($(b).find("td:nth-child(5)").text());
-
+    document.getElementById("sortParticipationBtn").addEventListener("click", function() {
+        console.log(" Sort by Participation clicked");
+        
+        const rows = Array.from(document.querySelectorAll("#totalTableBody tr"));
+        
+        rows.sort(function(a, b) {
+            const partA = parseInt(a.querySelector("td:nth-child(5)").textContent) || 0;
+            const partB = parseInt(b.querySelector("td:nth-child(5)").textContent) || 0;
             return partB - partA;
         });
 
-        $.each(rows, (i, row) => $("#totalTableBody").append(row));
+        const tbody = document.getElementById("totalTableBody");
+        tbody.innerHTML = "";
+        rows.forEach(function(row) {
+            tbody.appendChild(row);
+        });
+        
+        console.log(" Sorted by participation (highest first)");
     });
+
+    console.log(" All buttons configured");
 }
 
-// Start when page loads
-document.addEventListener("DOMContentLoaded", initTotalList);
-
-    document.getElementById("showReportBtn").addEventListener("click", () => {
-
-        let presentCount = 0;
-        let participatedCount = 0;
-
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const participated = parseInt($(this).find("td:nth-child(5)").text());
-
-            if (present > 0) presentCount++;
-            if (participated > 0) participatedCount++;
-        });
-
-        const totalStudents = $("#totalTableBody tr").length;
-        const absentCount = totalStudents - presentCount;
-
-        // Fill report text
-        $("#totalStudents").text(totalStudents);
-        $("#totalPresent").text(presentCount);
-        $("#totalAbsent").text(absentCount);
-        $("#totalParticipated").text(participatedCount);
-
-        $("#reportSection").show();
-
-        // Pie chart
-        const ctx = document.getElementById("attendanceChart").getContext("2d");
-        new Chart(ctx, {
-            type: "pie",
-            data: {
-                labels: ["Present", "Absent", "Participated"],
-                datasets: [{
-                    data: [presentCount, absentCount, participatedCount]
-                }]
-            }
-        });
-    });
-
-    // =====================================================
-    // HIGHLIGHT LOW ABSENCE STUDENTS (<3)
-    // =====================================================
-    $("#highlightBtn").click(function () {
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const absences = totalSessions - present;
-
-            if (absences < 3) {
-                $(this).animate({ opacity: 0.3 }, 200)
-                        .animate({ opacity: 1 }, 200)
-                        .css("background-color", "#90ee90");
-            }
-        });
-    });
-
-    // RESET COLORS
-    $("#resetBtn").click(function () {
-        $("#totalTableBody tr").each(function () {
-            const present = parseInt($(this).find("td:nth-child(4)").text());
-            const absences = totalSessions - present;
-
-            if (absences < 3) $(this).css("background-color", "#c8f7c5");
-            else if (absences <= 4) $(this).css("background-color", "#fff3b0");
-            else $(this).css("background-color", "#ffb3b3");
-        });
-    });
-
-    // SEARCH
-    $("#searchInput").on("keyup", function () {
-        const value = $(this).val().toLowerCase();
-
-        $("#totalTableBody tr").filter(function () {
-            const last = $(this).find("td:nth-child(2)").text().toLowerCase();
-            const first = $(this).find("td:nth-child(3)").text().toLowerCase();
-
-            $(this).toggle(last.includes(value) || first.includes(value));
-        });
-    });
-
-    // SORT BY ABSENCES
-    $("#sortAbsencesBtn").click(function () {
-
-        const rows = $("#totalTableBody tr").get();
-
-        rows.sort(function (a, b) {
-            const presentA = parseInt($(a).find("td:nth-child(4)").text());
-            const presentB = parseInt($(b).find("td:nth-child(4)").text());
-
-            const absA = totalSessions - presentA;
-            const absB = totalSessions - presentB;
-
-            return absA - absB;
-        });
-
-        $.each(rows, (i, row) => $("#totalTableBody").append(row));
-    });
-
-    // SORT BY PARTICIPATION
-    $("#sortParticipationBtn").click(function () {
-        const rows = $("#totalTableBody tr").get();
-
-        rows.sort(function (a, b) {
-            const partA = parseInt($(a).find("td:nth-child(5)").text());
-            const partB = parseInt($(b).find("td:nth-child(5)").text());
-
-            return partB - partA;
-        });
-
-        $.each(rows, (i, row) => $("#totalTableBody").append(row));
-    });
+if (document.readyState === "loading") {
+    console.log(" Waiting for DOM...");
+    document.addEventListener("DOMContentLoaded", initTotalList);
+} else {
+    console.log(" DOM ready, starting immediately");
+    initTotalList();
 }
-
-// Start when page loads
-document.addEventListener("DOMContentLoaded", initTotalList);

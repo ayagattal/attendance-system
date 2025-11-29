@@ -1,18 +1,16 @@
-// -------------------------------
+
+
 // 1) READ URL PARAMETERS
-// -------------------------------
+
 const url = new URLSearchParams(window.location.search);
 const studentId = url.get("studentId");
 const groupId = url.get("group");
 const moduleName = url.get("module");
-
-// Write module + group
 document.getElementById("moduleName").innerText = moduleName;
 document.getElementById("groupName").innerText = groupId;
 
-// -------------------------------
 // 2) LOAD STUDENT INFO FROM SERVER
-// -------------------------------
+
 async function loadStudentInfo() {
     const res = await fetch(`/attendance_app/api/student_get.php?id=${studentId}`);
     const data = await res.json();
@@ -22,51 +20,51 @@ async function loadStudentInfo() {
         `${data.first_name} ${data.last_name}`;
 }
 
-// -------------------------------
 // 3) LOAD ALL SESSIONS FOR THIS GROUP
-// -------------------------------
 async function loadSessions() {
-    const res = await fetch(`/attendance_app/api/sessions_get.php?group_id=${groupId}`);
-    return await res.json(); // [{session_id, session_number}, ...]
+    const res = await fetch(`/attendance_app/api/sessions.php?group_id=${groupId}`);
+    return await res.json(); 
 }
 
-// -------------------------------
-// 4) LOAD ATTENDANCE FOR ONE SESSION
-// -------------------------------
-async function loadAttendance(sessionId) {
-    const res = await fetch(`/attendance_app/api/attendance_get.php?session_id=${sessionId}`);
-    return await res.json(); // [{student_id, present, participated}]
+// 4) LOAD ATTENDANCE FOR THIS GROUP
+async function loadAttendance() {
+    const res = await fetch(`/attendance_app/api/attendance_get.php?group_id=${groupId}`);
+    return await res.json(); 
 }
 
-// -------------------------------
 // 5) MAIN REPORT FUNCTION
-// -------------------------------
+
 async function generateReport() {
 
     await loadStudentInfo();
 
     const sessions = await loadSessions();
+    const allAttendance = await loadAttendance();
 
     let present = 0;
     let absent = 0;
-    let participated = 0; // <-- your DB has no field for this
+    let participated = 0; 
+    
+    for (let session of sessions) {
+        // Find attendance record for this student in this session
+        const attRecord = allAttendance.find(a => 
+            a.student_id == studentId && a.session_number === session.session_number
+        );
 
-    for (let s of sessions) {
-
-        const attRows = await loadAttendance(s.session_id);
-
-        const rec = attRows.find(r => r.student_id == studentId);
-
-        if (!rec) {
-            // If no record → absent
+        if (!attRecord) {
             absent++;
             continue;
         }
 
-        if (rec.status === "present") present++;
-        if (rec.status === "absent") absent++;
-
-        // No participated column in DB → always 0
+        // Check status: 0=absent, 1=present, 2=participated
+        if (attRecord.status === 1 || attRecord.status === "1") {
+            present++;
+        } else if (attRecord.status === 2 || attRecord.status === "2") {
+            participated++;
+            present++; // Participated also counts as present
+        } else if (attRecord.status === 0 || attRecord.status === "0") {
+            absent++;
+        }
     }
 
     // Fill HTML
@@ -74,35 +72,31 @@ async function generateReport() {
     document.getElementById("absentCount").innerText = absent;
     document.getElementById("participatedCount").innerText = participated;
 
-    // -------------------------------
-    // 6) Generate evaluation message
-    // -------------------------------
+    // Generate evaluation message
+    
     let message = "";
 
     if (absent >= 5) {
-        message = "❌ Excluded – too many absences – You need to participate more";
+        message = "! Excluded / too many absences / You need to participate more";
     }
     else if (absent >= 3) {
         if (participated <= 1) {
-            message = "⚠️ Warning – attendance low – You need to participate more";
+            message = "!! Warning / attendance low /You need to participate more";
         } else {
-            message = "⚠️ Warning – attendance low – Participation acceptable";
+            message = "!! Warning /attendance low / Participation acceptable";
         }
     }
     else {
         if (participated >= 3) {
-            message = "✅ Good attendance – Excellent participation";
+            message = " Good attendance / Excellent participation";
         } else if (participated === 0) {
-            message = "ℹ️ Good attendance – but you need to participate more";
+            message = " Good attendance /but you need to participate more";
         } else {
-            message = "👍 Good attendance – Good participation";
+            message = " Good attendance / Good participation";
         }
     }
 
     document.getElementById("messageBox").innerText = message;
 }
 
-// -------------------------------
-// RUN REPORT
-// -------------------------------
 generateReport();

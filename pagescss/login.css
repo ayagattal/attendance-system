@@ -30,16 +30,16 @@ form {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 5px 15px #00000033; /*(card look)*/
-    width: 300px;/*for, size*/
+    box-shadow: 0px 5px 15px #00000033; 
+    width: 300px;
     text-align: center;
 } 
 
 /* Inputs and select styling */
 input[type="text"], select {
     width: 90%;
-    padding: 10px;/*more space inside*/
-    margin: 8px 0;/*space between fields*/
+    padding: 10px;
+    margin: 8px 0;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 16px;
@@ -56,12 +56,12 @@ input[type="submit"] {
     color: white;
     font-size: 18px;
     font-weight: bold;
-    cursor: pointer;/*When the user moves the mouse over the button so the mouse cursor changes into a hand icon*/
+    cursor: pointer;/*ki n7arek mouse over the button so the mouse cursor changes into a hand icon*/
     transition: background-color 0.5s;
 }
 
 /* Submit button hover effect */
 input[type="submit"]:hover {
-    background-color: #3a8acb;/*When you move the mouse over the button the color becomes darker*/
+    background-color: #3a8acb;/* ki n7arek mouse over the button the color becomes darker*/
 }
 

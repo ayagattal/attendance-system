@@ -3,7 +3,7 @@ require_once __DIR__ . '/db_connect.php';
 
 header('Content-Type: application/json');
 
-// If called with ?all=1 return all teachers (debug/listing)
+// If called with this :?all=1 return all teachers:
 if (isset($_GET['all'])) {
     try {
         $stmt = $pdo->query('SELECT teacher_id, first_name, last_name FROM teachers');

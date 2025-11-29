@@ -63,26 +63,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // We have a teacher_id — load their classes
-    console.log("📚 Loading classes for teacher_id:", teacherId);
+    console.log("Loading classes for teacher_id:", teacherId);
 
     try {
         const apiUrl = `/attendance_app/api/teacher_groups.php?teacher_id=${encodeURIComponent(teacherId)}`;
-        console.log("🌐 Fetching from API:", apiUrl);
+        console.log("Fetching from API:", apiUrl);
         const res = await fetch(apiUrl);
-        console.log("📥 Response status:", res.status);
+        console.log(" Response status:", res.status);
         const groups = await res.json();
 
-        console.log("✅ API response groups:", groups);
-        console.log("📊 Number of groups:", Array.isArray(groups) ? groups.length : "not an array");
+        console.log(" API response groups:", groups);
+        console.log(" Number of groups:", Array.isArray(groups) ? groups.length : "not an array");
 
         if (!Array.isArray(groups) || groups.length === 0) {
-            console.warn("⚠️  No groups returned or not an array");
+            console.warn("!!!!!!!! No groups returned or not an array");
             container.innerHTML = '<p>No groups assigned to this teacher.</p>';
             return;
         }
 
         // Group rows by module_id
-        console.log("🔄 Organizing groups by module...");
+        console.log(" Organizing groups by module...");
         const modules = {};
         
         groups.forEach(group => {
@@ -107,8 +107,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         });
 
-        console.log("✅ Grouped modules:", modules);
-        console.log("📈 Number of modules:", Object.keys(modules).length);
+        console.log(" Grouped modules:", modules);
+        console.log(" Number of modules:", Object.keys(modules).length);
 
         if (Object.keys(modules).length === 0) {
             console.warn("⚠️  No modules found after grouping");
@@ -118,19 +118,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         container.innerHTML = '';
 
-        // Add change teacher link
-        const changeLink = document.createElement('p');
-        changeLink.style.marginBottom = '16px';
-        const a = document.createElement('a');
-        a.href = '/attendance_app/pages/classe.html';
-        a.textContent = ' Change Teacher';
-        a.style.color = '#2F94DB';
-        a.style.cursor = 'pointer';
-        changeLink.appendChild(a);
-        container.appendChild(changeLink);
-
         // Render modules
-        console.log("🎨 Rendering modules...");
+        console.log(" Rendering modules...");
         Object.values(modules).forEach((module, idx) => {
             console.log(`  Rendering module ${idx + 1}: ${module.name} (${module.groups.length} groups)`);
             const card = document.createElement('div');
@@ -156,7 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             container.appendChild(card);
         });
-        console.log("✅ All modules rendered successfully");
+        console.log(" All modules rendered successfully");
 
     } catch (err) {
         console.error(" Error loading classes:", err);

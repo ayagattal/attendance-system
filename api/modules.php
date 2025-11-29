@@ -3,7 +3,7 @@ require_once __DIR__ . '/db_connect.php';
 
 header('Content-Type: application/json');
 
-// If group_id provided, return modules linked to that group.
+// If group_id providedreturn modules linked to that group.
 $group_id = isset($_GET['group_id']) ? (int)$_GET['group_id'] : 0;
 
 try {

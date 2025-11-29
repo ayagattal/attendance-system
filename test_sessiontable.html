@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Testing SessionTable APIs</h1>
+<pre id="output"></pre>
+
+<script>
+async function test() {
+    const output = document.getElementById('output');
+    
+    const groupId = '1';
+    const sessionNumber = '1';
+    
+    // Test 1: Get sessions
+    const sessRes = await fetch(`/attendance_app/api/sessions.php?group_id=${groupId}`);
+    const sessions = await sessRes.json();
+    output.innerHTML += `Sessions: ${JSON.stringify(sessions, null, 2)}\n\n`;
+    
+    // Test 2: Get students
+    const studRes = await fetch(`/attendance_app/api/students.php?group_id=${groupId}`);
+    const students = await studRes.json();
+    output.innerHTML += `Students count: ${students.length}\n`;
+    output.innerHTML += `First 3 students: ${JSON.stringify(students.slice(0, 3), null, 2)}\n\n`;
+    
+    // Test 3: Get attendance
+    const attRes = await fetch(`/attendance_app/api/attendance_get.php?group_id=${groupId}`);
+    const attendance = await attRes.json();
+    output.innerHTML += `Attendance: ${JSON.stringify(attendance, null, 2)}\n`;
+}
+test();
+</script>
+</body>
+</html>

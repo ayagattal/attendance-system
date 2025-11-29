@@ -3,21 +3,25 @@ require_once __DIR__ . '/db_connect.php';
 
 header('Content-Type: application/json');
 
-// GET: Fetch students for a group
+// GETstudents for a group
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	$group_id = isset($_GET['group_id']) ? (int)$_GET['group_id'] : 0;
+	$group_id = isset($_GET['group_id']) ? trim($_GET['group_id']) : '0';
+	$group_id = intval($group_id);
+	
+	error_log("students.php GET: group_id=$group_id (type: " . gettype($group_id) . ")");
 
 	try {
-		$stmt = $pdo->prepare('SELECT student_id, first_name, last_name, group_id FROM students WHERE group_id = :gid');
+		$stmt = $pdo->prepare('SELECT student_id, first_name, last_name, group_id FROM students WHERE group_id = :gid ORDER BY student_id');
 		$stmt->execute(['gid' => $group_id]);
 		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		error_log("students.php: Found " . count($rows) . " students");
 		echo json_encode($rows ?: []);
 	} catch (Exception $e) {
 		error_log('students.php GET error: ' . $e->getMessage());
 		echo json_encode([]);
 	}
 }
-// POST: Add new student
+// POST Add new student
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$raw = file_get_contents('php://input');
 	$data = json_decode($raw, true);

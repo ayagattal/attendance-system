@@ -3,12 +3,12 @@ require_once __DIR__ . '/db_connect.php';
 
 header('Content-Type: application/json');
 
-// Read JSON input (support both JSON and form-encoded)
+// Read JSON input 
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 if (!is_array($data)) $data = [];
 
-// Merge POST data as fallback (form submissions)
+//form submissions:
 if (!empty($_POST)) {
     $data = array_merge($data, $_POST);
 }

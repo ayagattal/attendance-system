@@ -25,7 +25,6 @@
         <pre id="debugPanel" style="display:none; background:#f6f6f6; padding:8px; margin-top:12px; border:1px solid #ddd; font-size:12px; white-space:pre-wrap;"></pre>
     </div>
 
-    <!-- Bottom Navbar -->
     <div class="bottom-nav">
         <a href="home.html" id="homeLink"><i class="fa-solid fa-house"></i></a>
         <a href="classe.html" class="active"><i class="fa-solid fa-calendar"></i></a>
@@ -33,7 +32,7 @@
     </div>
 
     <script>
-        // Update nav links to include teacher_id parameter
+       
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const teacherId = urlParams.get("teacher_id");
@@ -45,10 +44,9 @@
         });
     </script>
 
-    <!-- Load DATA first -->
-    <script src="/attendance_app/javascript/data.js"></script>
+    <script src="/attendance_app/javascript/data.js?v=2"></script>
 
-    <script src="/attendance_app/javascript/classe.js"></script>
+    <script src="/attendance_app/javascript/classe.js?v=2"></script>
 
 </body>
 </html>

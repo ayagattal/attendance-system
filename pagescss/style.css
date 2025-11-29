@@ -10,10 +10,10 @@ body {
 /*  SIDEBAR NAVBAR  */
 .sidebar {
   width: 240px;
-  background-color: #bcd0e5; /* light blue */
+  background-color: #bcd0e5; 
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* keeps logout at bottom */
+  justify-content: space-between; 
   align-items: stretch;
   position: fixed;
   top: 0;
@@ -117,7 +117,7 @@ input[type="checkbox"] {
   text-align: center;
 }
 
-/* === TITLES === */
+/* TITLES  */
 h1 { 
   color: #9cb8d8;
   text-align: center; 
@@ -125,7 +125,7 @@ h1 {
   margin: 40px 0 20px 0; 
 }
 
-/* === FORM === */
+/* FORM  */
 form {
   display: inline-block;
   background: white;

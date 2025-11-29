@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS teacher_teaches (
   KEY group_id (group_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Optional sample data (small) --- remove or edit as needed
+-- Optional sample data 
 INSERT INTO modules (module_name) VALUES ('Algorithms'), ('Databases'), ('Web Dev');
 INSERT INTO group_list (group_name) VALUES ('Group A'), ('Group B');
 INSERT INTO group_modules (group_id, module_id) VALUES (1,1),(1,2),(2,3);

@@ -1,13 +1,11 @@
 // ============================================================
-// session.js — show session list for a group
+//  show session list for a group
 // ============================================================
 
 // Read URL params
 const urlParams = new URLSearchParams(window.location.search);
 const moduleId = urlParams.get("module_id");
 const groupId = urlParams.get("group_id");
-
-// DOM
 const title = document.getElementById("sessionListTitle");
 const container = document.getElementById("sessionListContainer");
 
@@ -17,14 +15,14 @@ async function initSessionPage() {
         return;
     }
 
-    console.log("📚 Loading sessions for group_id:", groupId);
+    console.log(" Loading sessions for group_id:", groupId);
 
     try {
         // Fetch sessions for this group
         const res = await fetch(`/attendance_app/api/sessions.php?group_id=${encodeURIComponent(groupId)}`);
         const sessions = await res.json();
 
-        console.log("✅ Sessions loaded:", sessions);
+        console.log(" Sessions loaded:", sessions);
 
         if (!Array.isArray(sessions) || sessions.length === 0) {
             container.innerHTML = '<p>No sessions available for this group.</p>';
@@ -69,7 +67,7 @@ async function initSessionPage() {
         container.appendChild(totalDiv);
 
     } catch (err) {
-        console.error("❌ Error loading sessions:", err);
+        console.error("❌!!! Error loading sessions:", err);
         container.innerHTML = '<p>Error loading sessions.</p>';
     }
 }

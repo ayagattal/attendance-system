@@ -9,8 +9,8 @@ body {
 
 /* Back Button — FIXED TO LEFT */
 .go-back {
-    display: block;          /* Forces button to align left */
-    margin: 0 0 15px 0;      /* Removes centered margin and pulls it to the left */
+    display: block;          
+    margin: 0 0 15px 0;      
     background: none;
     border: none;
     color: #2F93DB;
